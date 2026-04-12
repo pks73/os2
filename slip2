@@ -1,0 +1,140 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<time.h>
+
+
+
+int *bitVector;  
+int n;
+int fileCount=0;
+
+struct Directory
+{
+    char filename[20];
+    int start;
+    int length; 
+}dir[50];
+
+
+void showBitVector()
+{
+    printf("\nBit vector\n");
+    for(int i=0;i<n;i++){
+        printf("%d\t",bitVector[i]);
+    }
+    printf("\n");
+}
+
+void createFile(){
+    char name[20];
+    int len;
+
+    printf("\nEnter file name: ");
+    scanf("%s",name);  
+
+    
+    for(int i=0;i<fileCount;i++){
+        if(strcmp(dir[i].filename,name) == 0){
+            printf("\nFile '%s' already exists!\n",name);
+            return;
+        }
+    }
+
+    printf("\nEnter file length: ");
+    scanf("%d",&len);
+
+    if(len <= 0 || len > n)
+    {
+        printf("\nInvalid file length\n");
+        return;
+    }
+
+    
+    int found = 0;
+    for(int i=0;i<=n-len;i++){  
+        int j;
+        for(j=0;j<len;j++)
+        {
+            if(bitVector[i+j]==1)
+                break;
+        }
+        if (j == len)
+        {
+            
+            for(j=0;j<len;j++){
+                bitVector[i+j] = 1;
+            }
+            
+            strcpy(dir[fileCount].filename,name);
+            dir[fileCount].start = i;
+            dir[fileCount].length = len;
+            fileCount++;
+
+            printf("\nFile '%s' allocated successfully.\n",name);
+            printf("Start Block: %d, Length: %d\n",i,len);
+            found = 1;
+            break;
+        }
+    }
+    
+    if(!found)
+        printf("\nNot enough continuous free space for file\n");
+}
+
+void showDirectory()
+{
+    if(fileCount==0){
+        printf("\nDirectory is empty!\n");
+        return;
+    }
+
+    printf("\nDirectory Contents: \n");
+    printf("Filename\tStart Block\tLength\n");
+    printf("--------\t-----------\t------\n");
+    for(int i=0;i<fileCount;i++)
+    {
+        printf("%s\t\t%d\t\t%d\n",dir[i].filename,dir[i].start,dir[i].length);
+    }
+}
+
+
+int main()
+{
+    int choice;
+
+    printf("\nEnter number of disk blocks: ");
+    scanf("%d",&n);
+
+    bitVector = (int *)malloc(n * sizeof(int));
+    if(bitVector == NULL){
+        printf("Memory allocation failed!\n");
+        return 1;
+    }
+
+    
+    srand(time(NULL));
+    for(int i=0;i<n;i++)
+        bitVector[i] = rand()%2;
+    
+    do{
+        printf("1. Show bit vector\n");
+        printf("2. Create new file\n");
+        printf("3. Show Directory\n");
+        printf("4. Exit\n");
+        printf("\nEnter your choice: ");
+        scanf("%d",&choice);
+
+        switch (choice)
+        {
+            case 1: showBitVector(); break;
+            case 2: createFile(); break;
+            case 3: showDirectory(); break;
+        }
+    }while (choice != 4);
+    
+    free(bitVector);
+    return 0;  
+}
+
+--------------------------------------------
