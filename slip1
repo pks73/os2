@@ -1,0 +1,88 @@
+#include <stdio.h>
+
+int main() {
+    int avail[3];
+    int alloc[5][3];
+    int max[5][3];
+    int need[5][3];
+    int i, j;
+    int ch;
+    do{
+    printf("\n1 Accept Available\n2 Display Allocation, Max\n3 need matrix\n4 Display Available\n5. Exit\n");
+    printf("Enter you r choice: ");
+    scanf("%d", &ch);
+    switch (ch)
+    {
+    case 1:
+    
+    printf("Enter available resources: ");
+    for (j = 0; j < 3; j++) {
+        scanf("%d", &avail[j]);
+    }
+
+        break;
+    case 2:
+    
+    printf("Enter allocation matrix:\n");
+    for (i = 0; i < 5; i++) {
+        for (j = 0; j < 3; j++) {
+            scanf("%d", &alloc[i][j]);
+        }
+    }
+
+    
+    printf("Enter max matrix:\n");
+    for (i = 0; i < 5; i++) {
+        for (j = 0; j < 3; j++) {
+            scanf("%d", &max[i][j]);
+        }
+    }
+    
+    printf("\nAllocation matrix:\n");
+    for (i = 0; i < 5; i++) {
+        for (j = 0; j < 3; j++) {
+            printf("%d\t", alloc[i][j]);
+        }
+        printf("\n");
+    }
+
+
+    printf("\nMax matrix:\n");
+    for (i = 0; i < 5; i++) {
+        for (j = 0; j < 3; j++) {
+            printf("%d\t", max[i][j]);
+        }
+        printf("\n");
+    }
+        break;
+    
+        case 3:
+        
+        for (i = 0; i < 5; i++) {
+            for (j = 0; j < 3; j++) {
+                need[i][j] = max[i][j] - alloc[i][j];
+            }
+        }
+
+        printf("\nNeed matrix:\n");
+        for (i = 0; i < 5; i++) {
+            for (j = 0; j < 3; j++) {
+                printf("%d\t", need[i][j]);
+            }
+            printf("\n");
+        }
+        break;
+
+        case 4:
+        
+        printf("\nAvailable resources:\n");
+        for (j = 0; j < 3; j++) {
+            printf("%d\t", avail[j]);
+        }
+        printf("\n");
+        break;
+    }
+        }while(ch!=5);
+        return 0;
+
+}
