@@ -1,0 +1,45 @@
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+    int n, req[100], mov = 0, hp, count = 0;
+    
+    printf("Enter the number of requests:");
+    scanf("%d", &n);
+    
+    printf("Enter the request order:\n");
+    for (i = 0; i < n; i++)
+    {
+        scanf("%d", &req[i]);
+    }
+    
+    printf("Enter the current (initial) head position\n");
+    scanf("%d", &hp);
+    
+    while (count != n)
+    {
+        min = 1000, diff, index;
+        
+        for (i = 0; i < n; i++)
+        {
+            diff = abs(req[i] - hp);
+            
+            if (min > diff)
+            {
+                min = diff;
+                index = i;
+            }
+        }
+        
+        mov = mov + min;
+        hp = req[index];
+        
+        req[index] = 1000;
+        
+        count++;
+    }
+    
+    printf("Total head movement = %d\n", mov);
+}
